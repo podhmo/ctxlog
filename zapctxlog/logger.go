@@ -35,6 +35,15 @@ func WithOption(options ...zap.Option) func(*Config) {
 	}
 }
 
+// MustNew :
+func MustNew(options ...func(*Config)) ctxlogcore.Logger {
+	l, err := New(options...)
+	if err != nil {
+		panic(err)
+	}
+	return l
+}
+
 // New :
 func New(options ...func(*Config)) (ctxlogcore.Logger, error) {
 	c := &Config{

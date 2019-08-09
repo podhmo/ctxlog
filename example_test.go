@@ -16,14 +16,14 @@ func Example() {
 		return g(ctx)
 	}
 	g = func(ctx context.Context) error {
-		ctx, log := Get(ctx).With("y-id", 20)
+		_, log := Get(ctx).With("y-id", 20)
 		log.Info("start g")
 		defer log.Info("end g")
 		return nil
 	}
 
 	log, _ := zapctxlog.New(zapctxlog.WithNewInternal(newZapLogger))
-	f(WithLogger(context.Background(), log))
+	_ = f(WithLogger(context.Background(), log))
 
 	// Output:
 	// INFO	ctxlog/example_test.go:14	start f	{"x-id": 10}

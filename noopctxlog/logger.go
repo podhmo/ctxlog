@@ -27,9 +27,9 @@ type Logger struct {
 }
 
 // With :
-func (l *Logger) With(k string, v interface{}) ctxlogcore.Logger {
+func (l *Logger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
 	return &Logger{
-		KeysAndValues: append(l.KeysAndValues, k, v),
+		KeysAndValues: append(l.KeysAndValues, keysAndValues...),
 	}
 }
 

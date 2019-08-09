@@ -1,6 +1,5 @@
 package ctxlogcore
 
-
 // Logger :
 type Logger interface {
 	Debug(msg string)
@@ -11,5 +10,5 @@ type Logger interface {
 	Panic(msg string) // panic
 
 	// structual
-	With(k string, v interface{}) Logger
+	With(keysAndValues ...interface{}) Logger
 }

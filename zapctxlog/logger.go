@@ -36,7 +36,7 @@ func WithOption(options ...zap.Option) func(*Config) {
 }
 
 // New :
-func New(options ...func(*Config)) (ctxlogcore.Logger, error, func() error) {
+func New(options ...func(*Config)) (ctxlogcore.Logger, error) {
 	c := &Config{
 		NewInternal: zap.NewProduction,
 		Options:     []zap.Option{zap.AddCallerSkip(1)},
@@ -46,12 +46,12 @@ func New(options ...func(*Config)) (ctxlogcore.Logger, error, func() error) {
 	}
 	logger, err := c.NewInternal(c.Options...)
 	if err != nil {
-		return nil, err, nil
+		return nil, err
 	}
 	sugar := logger.Sugar()
 	return &Logger{
 		Internal: sugar,
-	}, nil, logger.Sync
+	}, nil
 }
 
 // Logger :

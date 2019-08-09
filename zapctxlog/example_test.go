@@ -7,16 +7,12 @@ import (
 )
 
 func Example() {
-	log, _, teardown := New(
-		WithNewInternal(NewExample),
-	)
-
-	defer teardown()
+	log, _ := New(WithNewInternal(NewExample))
 	now, _ := time.Parse(time.RFC3339, "2011-11-11T22:22:22Z")
 	log.With("now", now).Info("hello")
 
 	// Output:
-	// INFO    zapctxlog/example_test.go:17    hello     {"now": "2011-11-11T22:22:22.000Z"}
+	// INFO	zapctxlog/example_test.go:12	hello	{"now": "2011-11-11T22:22:22.000Z"}
 }
 
 func NewExample(options ...zap.Option) *zap.Logger {

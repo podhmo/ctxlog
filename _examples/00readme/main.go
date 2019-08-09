@@ -1,10 +1,3 @@
-# ctxlog
-
-contextual logging and structual logging
-
-main.go
-
-```go
 package main
 
 import (
@@ -44,14 +37,3 @@ func g(ctx context.Context) error {
 	defer log.Info("end g")
 	return nil
 }
-```
-
-output
-
-```console
-$ go run _examples/00readme/main.go
-{"level":"info","ts":1565388319.7551425,"caller":"00readme/main.go:29","msg":"start f","x-id":10,"y-id":20}
-{"level":"info","ts":1565388319.7551734,"caller":"00readme/main.go:36","msg":"start g","x-id":10,"y-id":20,"y-id":20}
-{"level":"info","ts":1565388319.7551854,"caller":"00readme/main.go:38","msg":"end g","x-id":10,"y-id":20,"y-id":20}
-{"level":"info","ts":1565388319.755195,"caller":"00readme/main.go:31","msg":"end f","x-id":10,"y-id":20}
-```

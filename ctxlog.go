@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/podhmo/ctxlog/ctxlogcore"
-	"github.com/podhmo/ctxlog/noopctxlog"
 )
 
 type ctxKeyType string
@@ -19,7 +18,7 @@ func Get(ctx context.Context) *LoggerContext {
 	v := ctx.Value(ctxKey)
 	l, ok := (v).(Logger)
 	if !ok {
-		l = noopctxlog.Get()
+		l = getNoop()
 	}
 	return &LoggerContext{Context: ctx, Logger: l}
 }

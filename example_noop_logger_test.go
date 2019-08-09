@@ -1,11 +1,11 @@
-package noopctxlog
+package ctxlog
 
 import (
 	"time"
 )
 
-func Example() {
-	log := &Logger{}
+func ExampleNoopLogger() {
+	log := &NoopLogger{}
 
 	now, _ := time.Parse(time.RFC3339, "2011-11-11T22:22:22Z")
 	log.With("now", now).Info("hello")

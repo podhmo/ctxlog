@@ -22,11 +22,7 @@ func main() {
 }
 
 func run() error {
-	l, err := zapctxlog.New()
-	if err != nil {
-		return err
-	}
-
+	l := zapctxlog.MustNew()
 	ctx, _ := ctxlog.WithLogger(context.Background(), l).With("x-id", 10)
 	return f(ctx)
 }

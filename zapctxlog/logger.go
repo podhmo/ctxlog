@@ -5,9 +5,46 @@ import (
 	"go.uber.org/zap"
 )
 
+// Config :
+type Config struct {
+	NewInternal func(...zap.Option) (*zap.Logger, error)
+	Options     []zap.Option
+}
+
+// WithNewInternal :
+func WithNewInternal(newInternal func(...zap.Option) *zap.Logger) func(*Config) {
+	return func(c *Config) {
+		c.NewInternal = func(options ...zap.Option) (*zap.Logger, error) {
+			l := newInternal(options...)
+			return l, nil
+		}
+	}
+}
+
+// WithNewInternal2 :
+func WithNewInternal2(newInternal func(...zap.Option) (*zap.Logger, error)) func(*Config) {
+	return func(c *Config) {
+		c.NewInternal = newInternal
+	}
+}
+
+// WithOption :
+func WithOption(options ...zap.Option) func(*Config) {
+	return func(c *Config) {
+		c.Options = append(c.Options, options...)
+	}
+}
+
 // New :
-func New() (ctxlog.Logger, error, func() error) {
-	logger, err := zap.NewProduction(zap.AddCallerSkip(1))
+func New(options ...func(*Config)) (ctxlog.Logger, error, func() error) {
+	c := &Config{
+		NewInternal: zap.NewProduction,
+		Options:     []zap.Option{zap.AddCallerSkip(1)},
+	}
+	for _, opt := range options {
+		opt(c)
+	}
+	logger, err := c.NewInternal(c.Options...)
 	if err != nil {
 		return nil, err, nil
 	}

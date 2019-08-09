@@ -25,14 +25,14 @@ func run() error {
 }
 
 func f(ctx context.Context) error {
-	ctx, log := ctxlog.Get(ctx).With("y-id", 20)
+	ctx, log := ctxlog.Logger(ctx).With("y-id", 20)
 	log.Info("start f")
 	defer log.Info("end f")
 	return g(ctx)
 }
 
 func g(ctx context.Context) error {
-	ctx, log := ctxlog.Get(ctx).With("y-id", 20)
+	ctx, log := ctxlog.Logger(ctx).With("y-id", 20)
 	log.Info("start g")
 	defer log.Info("end g")
 	return nil

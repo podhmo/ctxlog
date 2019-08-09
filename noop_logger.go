@@ -3,6 +3,8 @@ package ctxlog
 import (
 	"os"
 	"sync"
+
+	"github.com/podhmo/ctxlog/ctxlogcore"
 )
 
 var (
@@ -10,7 +12,7 @@ var (
 )
 
 // getNoop :
-func getNoop() Logger {
+func getNoop() ctxlogcore.Logger {
 	once.Do(func() {
 		if os.Getenv("CTXLOG_LOOSE") == "" {
 			panic("logger not set")
@@ -25,7 +27,7 @@ type NoopLogger struct {
 }
 
 // With :
-func (l *NoopLogger) With(keysAndValues ...interface{}) Logger {
+func (l *NoopLogger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
 	return &NoopLogger{
 		KeysAndValues: append(l.KeysAndValues, keysAndValues...),
 	}

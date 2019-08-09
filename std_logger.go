@@ -5,6 +5,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/podhmo/ctxlog/ctxlogcore"
 )
 
 // FIXME: bad implementation
@@ -26,7 +28,7 @@ func NewStdLogger() *StdLogger {
 }
 
 // With :
-func (l *StdLogger) With(keysAndValues ...interface{}) Logger {
+func (l *StdLogger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
 	w := l.w
 	var logger *StdLogger
 	output := &LTSVOutput{W: w, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}

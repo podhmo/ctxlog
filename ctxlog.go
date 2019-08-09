@@ -13,10 +13,10 @@ const (
 	ctxKey = ctxKeyType("ctxlog")
 )
 
-// Get :
-func Get(ctx context.Context) *LoggerContext {
+// Logger :
+func Logger(ctx context.Context) *LoggerContext {
 	v := ctx.Value(ctxKey)
-	l, ok := (v).(Logger)
+	l, ok := (v).(ctxlogcore.Logger)
 	if !ok {
 		l = getNoop()
 	}
@@ -24,7 +24,7 @@ func Get(ctx context.Context) *LoggerContext {
 }
 
 // WithLogger
-func WithLogger(ctx context.Context, l Logger) *LoggerContext {
+func WithLogger(ctx context.Context, l ctxlogcore.Logger) *LoggerContext {
 	return &LoggerContext{
 		Context: context.WithValue(ctx, ctxKey, l),
 		Logger:  l,
@@ -53,6 +53,3 @@ func (lc *LoggerContext) With(keysAndValues ...interface{}) (context.Context, *L
 	ctx := WithLogger(lc.Context, l)
 	return ctx, ctx
 }
-
-// Logger :
-type Logger = ctxlogcore.Logger

@@ -53,3 +53,8 @@ func (lc *LoggerContext) With(keysAndValues ...interface{}) (context.Context, *L
 	ctx := WithLogger(lc.Context, l)
 	return ctx, ctx
 }
+
+// WithError :
+func (lc *LoggerContext) WithError(err error) ctxlogcore.Logger {
+	return lc.Logger.With("error", err)
+}

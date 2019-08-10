@@ -12,13 +12,13 @@ import (
 func Example() {
 	var f, g func(context.Context) error
 	f = func(ctx context.Context) error {
-		ctx, log := ctxlog.Logger(ctx).With("x-id", 10)
+		ctx, log := ctxlog.Get(ctx).With("x-id", 10)
 		log.Info("start f")
 		defer log.Info("end f")
 		return g(ctx)
 	}
 	g = func(ctx context.Context) error {
-		_, log := ctxlog.Logger(ctx).With("y-id", 20)
+		_, log := ctxlog.Get(ctx).With("y-id", 20)
 		log.Info("start g")
 		defer log.Info("end g")
 		return nil

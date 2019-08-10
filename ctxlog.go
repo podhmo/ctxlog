@@ -14,7 +14,10 @@ const (
 )
 
 // Logger :
-func Logger(ctx context.Context) *LoggerContext {
+type Logger = ctxlogcore.Logger
+
+// Get :
+func Get(ctx context.Context) *LoggerContext {
 	if ctx, ok := ctx.(*LoggerContext); ok {
 		return ctx
 	}

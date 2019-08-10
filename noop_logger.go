@@ -1,6 +1,7 @@
 package ctxlog
 
 import (
+	"fmt"
 	"os"
 	"sync"
 
@@ -14,9 +15,12 @@ var (
 // getNoop :
 func getNoop() ctxlogcore.Logger {
 	once.Do(func() {
-		if os.Getenv("CTXLOG_LOOSE") == "" {
+		if os.Getenv("CTXLOG_STRICT") != "" {
 			panic("logger not set")
 		}
+		fmt.Fprintln(os.Stderr, "\x1b[33m**CTXLOG WARNING*************************")
+		fmt.Fprintln(os.Stderr, "ctxlog.Logger is not found. please set logger, via ctxlog.WithLogger()")
+		fmt.Fprintln(os.Stderr, "****************************************\x1b[0m")
 	})
 	return &NoopLogger{}
 }

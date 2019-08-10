@@ -13,8 +13,9 @@ import (
 
 // Config :
 type Config struct {
-	Writer io.Writer
-	Flag   int
+	Writer  io.Writer
+	Flag    int
+	Verbose bool
 }
 
 // WithFlags :
@@ -24,9 +25,16 @@ func WithFlags(flag int) func(*Config) {
 	}
 }
 
+// WithVerbose :
+func WithVerbose() func(*Config) {
+	return func(c *Config) {
+		c.Verbose = true
+	}
+}
+
 // Logger :
 type Logger struct {
-	w             io.Writer
+	Config        *Config
 	Internal      *log.Logger
 	KeysAndValues []interface{}
 }
@@ -42,18 +50,28 @@ func New(options ...func(*Config)) *Logger {
 	}
 
 	var logger *Logger
-	output := &LTSVOutput{W: c.Writer, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}
-	logger = &Logger{w: c.Writer, Internal: log.New(output, "", c.Flag)}
+	output := &LTSVOutput{
+		W:            c.Writer,
+		KeyAndValues: func() []interface{} { return logger.KeysAndValues },
+		Verbose:      c.Verbose,
+	}
+	logger = &Logger{
+		Config:   c,
+		Internal: log.New(output, "", c.Flag),
+	}
 	return logger
 }
 
 // With :
 func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
-	w := l.w
 	var logger *Logger
-	output := &LTSVOutput{W: w, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}
+	output := &LTSVOutput{
+		W:            l.Config.Writer,
+		KeyAndValues: func() []interface{} { return logger.KeysAndValues },
+		Verbose:      l.Config.Verbose,
+	}
 	logger = &Logger{
-		w:             w,
+		Config:        l.Config,
 		Internal:      log.New(output, l.Internal.Prefix(), l.Internal.Flags()),
 		KeysAndValues: append(l.KeysAndValues, keysAndValues...),
 	}
@@ -107,6 +125,7 @@ func (l *Logger) Panic(msg string) {
 // LTSVOutput :
 type LTSVOutput struct {
 	W            io.Writer
+	Verbose      bool
 	KeyAndValues func() []interface{}
 }
 
@@ -127,10 +146,15 @@ func (o *LTSVOutput) Write(p []byte) (n int, err error) {
 		return n, err
 	}
 
+	msgfmt := "	%s:%v"
+	if o.Verbose {
+		msgfmt = "	%s:%+v"
+	}
+
 	for i := 0; i < len(keyAndValues); i += 2 {
 		k := keyAndValues[i]
 		v := keyAndValues[i+1]
-		m, err := fmt.Printf("	%s:%v", k, v)
+		m, err := fmt.Printf(msgfmt, k, v)
 		n += m
 		if err != nil {
 			return n, err

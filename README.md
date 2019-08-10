@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/podhmo/ctxlog.svg?style=svg)](https://circleci.com/gh/podhmo/ctxlog)
+
 # ctxlog
 
 contextual logging and structual logging

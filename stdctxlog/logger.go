@@ -1,4 +1,4 @@
-package ctxlog
+package stdctxlog
 
 import (
 	"fmt"
@@ -11,28 +11,48 @@ import (
 
 // FIXME: bad implementation
 
-// StdLogger :
-type StdLogger struct {
+// Config :
+type Config struct {
+	Writer io.Writer
+	Flag   int
+}
+
+// WithFlags :
+func WithFlags(flag int) func(*Config) {
+	return func(c *Config) {
+		c.Flag = flag
+	}
+}
+
+// Logger :
+type Logger struct {
 	w             io.Writer
 	Internal      *log.Logger
 	KeysAndValues []interface{}
 }
 
-// NewStdLogger :
-func NewStdLogger() *StdLogger {
-	var logger *StdLogger
-	w := os.Stdout
-	output := &LTSVOutput{W: w, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}
-	logger = &StdLogger{w: w, Internal: log.New(output, "", log.LstdFlags|log.Lshortfile)}
+// New :
+func New(options ...func(*Config)) *Logger {
+	c := &Config{
+		Writer: os.Stdout,
+		Flag:   log.LstdFlags | log.Lshortfile,
+	}
+	for _, opt := range options {
+		opt(c)
+	}
+
+	var logger *Logger
+	output := &LTSVOutput{W: c.Writer, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}
+	logger = &Logger{w: c.Writer, Internal: log.New(output, "", c.Flag)}
 	return logger
 }
 
 // With :
-func (l *StdLogger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
+func (l *Logger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
 	w := l.w
-	var logger *StdLogger
+	var logger *Logger
 	output := &LTSVOutput{W: w, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}
-	logger = &StdLogger{
+	logger = &Logger{
 		w:             w,
 		Internal:      log.New(output, l.Internal.Prefix(), l.Internal.Flags()),
 		KeysAndValues: append(l.KeysAndValues, keysAndValues...),
@@ -41,35 +61,35 @@ func (l *StdLogger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
 }
 
 // Debug :
-func (l *StdLogger) Debug(msg string) {
+func (l *Logger) Debug(msg string) {
 	if err := l.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Info :
-func (l *StdLogger) Info(msg string) {
+func (l *Logger) Info(msg string) {
 	if err := l.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Warning :
-func (l *StdLogger) Warning(msg string) {
+func (l *Logger) Warning(msg string) {
 	if err := l.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Error :
-func (l *StdLogger) Error(msg string) {
+func (l *Logger) Error(msg string) {
 	if err := l.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Fatal :
-func (l *StdLogger) Fatal(msg string) {
+func (l *Logger) Fatal(msg string) {
 	if err := l.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
@@ -77,7 +97,7 @@ func (l *StdLogger) Fatal(msg string) {
 }
 
 // Panic :
-func (l *StdLogger) Panic(msg string) {
+func (l *Logger) Panic(msg string) {
 	if err := l.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}

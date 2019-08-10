@@ -2,7 +2,7 @@
 
 # ctxlog
 
-contextual logging and structual logging
+contextual logging and structural logging
 
 main.go
 

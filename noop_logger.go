@@ -19,7 +19,7 @@ func getNoop() ctxlogcore.Logger {
 			panic("logger not set")
 		}
 		fmt.Fprintln(os.Stderr, "\x1b[33m**CTXLOG WARNING*************************")
-		fmt.Fprintln(os.Stderr, "ctxlog.Get is not found. please set logger, via ctxlog.WithLogger()")
+		fmt.Fprintln(os.Stderr, "ctxlog.Get is not found. please set logger, via ctxlog.Set()")
 		fmt.Fprintln(os.Stderr, "****************************************\x1b[0m")
 	})
 	return &NoopLogger{}

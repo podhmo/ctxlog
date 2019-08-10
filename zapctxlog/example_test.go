@@ -25,7 +25,7 @@ func Example() {
 	}
 
 	log, _ := zapctxlog.New(zapctxlog.WithNewInternal(newZapLogger))
-	_ = f(ctxlog.WithLogger(context.Background(), log))
+	_ = f(ctxlog.Set(context.Background(), log))
 
 	// Output:
 	// INFO	zapctxlog/example_test.go:16	start f	{"x-id": 10}

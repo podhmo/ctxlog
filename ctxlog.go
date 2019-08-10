@@ -30,8 +30,8 @@ func Get(ctx context.Context) *LoggerContext {
 	return &LoggerContext{Context: ctx, Logger: l}
 }
 
-// WithLogger
-func WithLogger(ctx context.Context, l ctxlogcore.Logger) *LoggerContext {
+// Set
+func Set(ctx context.Context, l ctxlogcore.Logger) *LoggerContext {
 	return &LoggerContext{
 		Context: context.WithValue(ctx, ctxKey, l),
 		Logger:  l,
@@ -57,7 +57,7 @@ func (lc *LoggerContext) With(keysAndValues ...interface{}) (context.Context, *L
 			l = l.With(fmt.Sprintf("%s", k), v)
 		}
 	}
-	ctx := WithLogger(lc.Context, l)
+	ctx := Set(lc.Context, l)
 	return ctx, ctx
 }
 

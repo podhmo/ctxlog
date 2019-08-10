@@ -16,7 +16,7 @@ func main() {
 
 func run() error {
 	l := zapctxlog.MustNew()
-	ctx, _ := ctxlog.WithLogger(context.Background(), l).With("x-id", 10)
+	ctx, _ := ctxlog.Set(context.Background(), l).With("x-id", 10)
 	return f(ctx)
 }
 

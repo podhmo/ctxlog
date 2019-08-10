@@ -11,7 +11,7 @@ import (
 
 func main() {
 	l := zapctxlog.MustNew()
-	ctx, _ := ctxlog.WithLogger(context.Background(), l).With("x-id", 10)
+	ctx, _ := ctxlog.Set(context.Background(), l).With("x-id", 10)
 	if err := f(ctx); err != nil {
 		ctxlog.Get(ctx).WithError(err).Warning("!!")
 	}

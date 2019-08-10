@@ -15,6 +15,10 @@ const (
 
 // Logger :
 func Logger(ctx context.Context) *LoggerContext {
+	if ctx, ok := ctx.(*LoggerContext); ok {
+		return ctx
+	}
+
 	v := ctx.Value(ctxKey)
 	l, ok := (v).(ctxlogcore.Logger)
 	if !ok {

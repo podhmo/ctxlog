@@ -3,8 +3,6 @@ package ctxlog
 import (
 	"context"
 	"fmt"
-
-	"github.com/podhmo/ctxlog/ctxlogcore"
 )
 
 type ctxKeyType string
@@ -14,7 +12,17 @@ const (
 )
 
 // Logger :
-type Logger = ctxlogcore.Logger
+type Logger interface {
+	Debug(msg string)
+	Info(msg string)
+	Warning(msg string)
+	Error(msg string)
+	Fatal(msg string)
+	Panic(msg string) // panic
+
+	// structual
+	With(keysAndValues ...interface{}) Logger
+}
 
 // Get :
 func Get(ctx context.Context) *LoggerContext {
@@ -23,7 +31,7 @@ func Get(ctx context.Context) *LoggerContext {
 	}
 
 	v := ctx.Value(ctxKey)
-	l, ok := (v).(ctxlogcore.Logger)
+	l, ok := (v).(Logger)
 	if !ok {
 		l = getNoop()
 	}
@@ -31,7 +39,7 @@ func Get(ctx context.Context) *LoggerContext {
 }
 
 // Set
-func Set(ctx context.Context, l ctxlogcore.Logger) *LoggerContext {
+func Set(ctx context.Context, l Logger) *LoggerContext {
 	return &LoggerContext{
 		Context: context.WithValue(ctx, ctxKey, l),
 		Logger:  l,
@@ -41,7 +49,7 @@ func Set(ctx context.Context, l ctxlogcore.Logger) *LoggerContext {
 // LoggerContext :
 type LoggerContext struct {
 	context.Context
-	ctxlogcore.Logger
+	Logger
 }
 
 // With :
@@ -62,6 +70,6 @@ func (lc *LoggerContext) With(keysAndValues ...interface{}) (context.Context, *L
 }
 
 // WithError :
-func (lc *LoggerContext) WithError(err error) ctxlogcore.Logger {
+func (lc *LoggerContext) WithError(err error) Logger {
 	return lc.Logger.With("error", err)
 }

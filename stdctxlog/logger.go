@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/podhmo/ctxlog/ctxlogcore"
+	"github.com/podhmo/ctxlog"
 )
 
 // FIXME: bad implementation
@@ -48,7 +48,7 @@ func New(options ...func(*Config)) *Logger {
 }
 
 // With :
-func (l *Logger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
+func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
 	w := l.w
 	var logger *Logger
 	output := &LTSVOutput{W: w, KeyAndValues: func() []interface{} { return logger.KeysAndValues }}

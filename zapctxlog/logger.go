@@ -1,7 +1,7 @@
 package zapctxlog
 
 import (
-	"github.com/podhmo/ctxlog/ctxlogcore"
+	"github.com/podhmo/ctxlog"
 	"go.uber.org/zap"
 )
 
@@ -36,7 +36,7 @@ func WithOption(options ...zap.Option) func(*Config) {
 }
 
 // MustNew :
-func MustNew(options ...func(*Config)) ctxlogcore.Logger {
+func MustNew(options ...func(*Config)) ctxlog.Logger {
 	l, err := New(options...)
 	if err != nil {
 		panic(err)
@@ -45,7 +45,7 @@ func MustNew(options ...func(*Config)) ctxlogcore.Logger {
 }
 
 // New :
-func New(options ...func(*Config)) (ctxlogcore.Logger, error) {
+func New(options ...func(*Config)) (ctxlog.Logger, error) {
 	c := &Config{
 		NewInternal: zap.NewProduction,
 		Options:     []zap.Option{zap.AddCallerSkip(1)},
@@ -69,7 +69,7 @@ type Logger struct {
 }
 
 // With :
-func (l *Logger) With(keysAndValues ...interface{}) ctxlogcore.Logger {
+func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
 	return &Logger{
 		Internal: l.Internal.With(keysAndValues...),
 	}

@@ -65,42 +65,44 @@ func New(options ...func(*Config)) (ctxlog.Logger, error) {
 
 // Logger :
 type Logger struct {
-	Internal *zap.SugaredLogger
+	Internal      *zap.SugaredLogger
+	KeysAndValues []interface{}
 }
 
 // With :
 func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
 	return &Logger{
-		Internal: l.Internal.With(keysAndValues...),
+		Internal:      l.Internal,
+		KeysAndValues: append(l.KeysAndValues, keysAndValues...),
 	}
 }
 
 // Debug :
 func (l *Logger) Debug(msg string) {
-	l.Internal.Debug(msg)
+	l.Internal.Debugw(msg, l.KeysAndValues...)
 }
 
 // Info :
 func (l *Logger) Info(msg string) {
-	l.Internal.Info(msg)
+	l.Internal.Infow(msg, l.KeysAndValues...)
 }
 
 // Warning :
 func (l *Logger) Warning(msg string) {
-	l.Internal.Warn(msg)
+	l.Internal.Warnw(msg, l.KeysAndValues...)
 }
 
 // Error :
 func (l *Logger) Error(msg string) {
-	l.Internal.Error(msg)
+	l.Internal.Errorw(msg, l.KeysAndValues...)
 }
 
 // Fatal :
 func (l *Logger) Fatal(msg string) {
-	l.Internal.Fatal(msg)
+	l.Internal.Fatalw(msg, l.KeysAndValues...)
 }
 
 // Panic :
 func (l *Logger) Panic(msg string) {
-	l.Internal.Panic(msg)
+	l.Internal.Panicw(msg, l.KeysAndValues...)
 }

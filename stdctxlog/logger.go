@@ -79,44 +79,74 @@ func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
 }
 
 // Debug :
-func (l *Logger) Debug(msg string) {
-	if err := l.Internal.Output(2, msg); err != nil {
+func (l *Logger) Debug(msg string, keysAndValues ...interface{}) {
+	// TODO: support level
+	wl := l
+	if len(keysAndValues) > 0 {
+		wl = l.With(keysAndValues...).(*Logger)
+	}
+	if err := wl.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Info :
-func (l *Logger) Info(msg string) {
-	if err := l.Internal.Output(2, msg); err != nil {
+func (l *Logger) Info(msg string, keysAndValues ...interface{}) {
+	// TODO: support level
+	wl := l
+	if len(keysAndValues) > 0 {
+		wl = l.With(keysAndValues...).(*Logger)
+	}
+	if err := wl.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Warning :
-func (l *Logger) Warning(msg string) {
-	if err := l.Internal.Output(2, msg); err != nil {
+func (l *Logger) Warning(msg string, keysAndValues ...interface{}) {
+	// TODO: support level
+	wl := l
+	if len(keysAndValues) > 0 {
+		wl = l.With(keysAndValues...).(*Logger)
+	}
+	if err := wl.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Error :
-func (l *Logger) Error(msg string) {
-	if err := l.Internal.Output(2, msg); err != nil {
+func (l *Logger) Error(msg string, keysAndValues ...interface{}) {
+	// TODO: support level
+	wl := l
+	if len(keysAndValues) > 0 {
+		wl = l.With(keysAndValues...).(*Logger)
+	}
+	if err := wl.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 }
 
 // Fatal :
-func (l *Logger) Fatal(msg string) {
-	if err := l.Internal.Output(2, msg); err != nil {
+func (l *Logger) Fatal(msg string, keysAndValues ...interface{}) {
+	// TODO: support level
+	wl := l
+	if len(keysAndValues) > 0 {
+		wl = l.With(keysAndValues...).(*Logger)
+	}
+	if err := wl.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 	os.Exit(1)
 }
 
 // Panic :
-func (l *Logger) Panic(msg string) {
-	if err := l.Internal.Output(2, msg); err != nil {
+func (l *Logger) Panic(msg string, keysAndValues ...interface{}) {
+	// TODO: support level
+	wl := l
+	if len(keysAndValues) > 0 {
+		wl = l.With(keysAndValues...).(*Logger)
+	}
+	if err := wl.Internal.Output(2, msg); err != nil {
 		panic(err)
 	}
 	panic(msg)

@@ -6,7 +6,8 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12
-
+        environment:
+          GO111MODULE: "on"
     working_directory: /go/src/github.com/podhmo/ctxlog
     steps:
       - checkout

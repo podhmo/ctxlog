@@ -22,6 +22,7 @@ type Logger interface {
 
 	// structual
 	With(keysAndValues ...interface{}) Logger
+	WithError(err error) Logger
 }
 
 // Get :
@@ -71,5 +72,5 @@ func (lc *LoggerContext) With(keysAndValues ...interface{}) (context.Context, *L
 
 // WithError :
 func (lc *LoggerContext) WithError(err error) Logger {
-	return lc.Logger.With("error", err)
+	return lc.Logger.WithError(err)
 }

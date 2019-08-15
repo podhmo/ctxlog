@@ -78,6 +78,11 @@ func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
 	return logger
 }
 
+// WithError :
+func (l *Logger) WithError(err error) ctxlog.Logger {
+	return l.With("error", err)
+}
+
 // Debug :
 func (l *Logger) Debug(msg string, keysAndValues ...interface{}) {
 	// TODO: support level

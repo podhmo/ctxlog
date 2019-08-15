@@ -35,6 +35,11 @@ func (l *NoopLogger) With(keysAndValues ...interface{}) Logger {
 	}
 }
 
+// WithError :
+func (l *NoopLogger) WithError(err error) Logger {
+	return l.With("error", err)
+}
+
 // Debug :
 func (l *NoopLogger) Debug(msg string, keysAndValues ...interface{}) {
 }

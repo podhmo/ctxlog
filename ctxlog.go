@@ -13,12 +13,12 @@ const (
 
 // Logger :
 type Logger interface {
-	Debug(msg string)
-	Info(msg string)
-	Warning(msg string)
-	Error(msg string)
-	Fatal(msg string)
-	Panic(msg string) // panic
+	Debug(msg string, keysAndValues ...interface{})
+	Info(msg string, keysAndValues ...interface{})
+	Warning(msg string, keysAndValues ...interface{})
+	Error(msg string, keysAndValues ...interface{})
+	Fatal(msg string, keysAndValues ...interface{})
+	Panic(msg string, keysAndValues ...interface{}) // panic
 
 	// structual
 	With(keysAndValues ...interface{}) Logger

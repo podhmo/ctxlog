@@ -78,31 +78,31 @@ func (l *Logger) With(keysAndValues ...interface{}) ctxlog.Logger {
 }
 
 // Debug :
-func (l *Logger) Debug(msg string) {
-	l.Internal.Debugw(msg, l.KeysAndValues...)
+func (l *Logger) Debug(msg string, keysAndValues ...interface{}) {
+	l.Internal.Debugw(msg, append(l.KeysAndValues, keysAndValues...)...)
 }
 
 // Info :
-func (l *Logger) Info(msg string) {
-	l.Internal.Infow(msg, l.KeysAndValues...)
+func (l *Logger) Info(msg string, keysAndValues ...interface{}) {
+	l.Internal.Infow(msg, append(l.KeysAndValues, keysAndValues...)...)
 }
 
 // Warning :
-func (l *Logger) Warning(msg string) {
-	l.Internal.Warnw(msg, l.KeysAndValues...)
+func (l *Logger) Warning(msg string, keysAndValues ...interface{}) {
+	l.Internal.Warnw(msg, append(l.KeysAndValues, keysAndValues...)...)
 }
 
 // Error :
-func (l *Logger) Error(msg string) {
-	l.Internal.Errorw(msg, l.KeysAndValues...)
+func (l *Logger) Error(msg string, keysAndValues ...interface{}) {
+	l.Internal.Errorw(msg, append(l.KeysAndValues, keysAndValues...)...)
 }
 
 // Fatal :
-func (l *Logger) Fatal(msg string) {
-	l.Internal.Fatalw(msg, l.KeysAndValues...)
+func (l *Logger) Fatal(msg string, keysAndValues ...interface{}) {
+	l.Internal.Fatalw(msg, append(l.KeysAndValues, keysAndValues...)...)
 }
 
 // Panic :
-func (l *Logger) Panic(msg string) {
-	l.Internal.Panicw(msg, l.KeysAndValues...)
+func (l *Logger) Panic(msg string, keysAndValues ...interface{}) {
+	l.Internal.Panicw(msg, append(l.KeysAndValues, keysAndValues...)...)
 }

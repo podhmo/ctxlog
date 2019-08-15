@@ -36,25 +36,25 @@ func (l *NoopLogger) With(keysAndValues ...interface{}) Logger {
 }
 
 // Debug :
-func (l *NoopLogger) Debug(msg string) {
+func (l *NoopLogger) Debug(msg string, keysAndValues ...interface{}) {
 }
 
 // Info :
-func (l *NoopLogger) Info(msg string) {
+func (l *NoopLogger) Info(msg string, keysAndValues ...interface{}) {
 }
 
 // Warning :
-func (l *NoopLogger) Warning(msg string) {
+func (l *NoopLogger) Warning(msg string, keysAndValues ...interface{}) {
 }
 
 // Error :
-func (l *NoopLogger) Error(msg string) {
+func (l *NoopLogger) Error(msg string, keysAndValues ...interface{}) {
 }
 
 // Fatal :
-func (l *NoopLogger) Fatal(msg string) {
+func (l *NoopLogger) Fatal(msg string, keysAndValues ...interface{}) {
 }
 
 // Panic :
-func (l *NoopLogger) Panic(msg string) {
+func (l *NoopLogger) Panic(msg string, keysAndValues ...interface{}) {
 }
